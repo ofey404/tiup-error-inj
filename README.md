@@ -7,13 +7,15 @@
 > - pd/tidb/tikv 二进制文件路径
 > - pd/tidb/tikv 实例数
 > - 支持以下错误注入的功能
-> - 重启一个 tikv 实例
-> - 给一个 tikv 实例制造网络分区（比如：让一个 tikv 实例连接不上其它 tikv 实例的 advertise-addr）
+>   - 重启一个 tikv 实例
+>   - 给一个 tikv 实例制造网络分区（比如：让一个 tikv 实例连接不上其它 tikv 实例的 advertise-addr）
 > 
 > 举个例子，你可以实现一个命令行工具
 > ```
 > 启动集群：cli start cluster --tikv.path bin/tikv-server --tikv.count 3
+>
 > 重启 tikv-0 实例：cli restart tikv-0
+>
 > 隔离 tikv-0 实例：cli partition tikv-0
 > ```
 > 
