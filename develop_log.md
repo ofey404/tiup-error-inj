@@ -17,7 +17,7 @@ Tech:
   - [x] Write a starter based on `tiup`.
 - Restart.
   - [x] Find a way to restart.
-  - [ ] whether tidb control can restart a tikv process?
+  - [x] whether tidb control can restart a tikv process?
 - Partition.
   - [ ] Write small program to validate `etcd/pkg/proxy`
 
@@ -26,7 +26,16 @@ Tech:
 How to use cobra: https://towardsdatascience.com/how-to-create-a-cli-in-golang-with-cobra-d729641c7177
 
 ## a starter based on `tiup`
-Just a simple wrap to `tiup`. This function is built within tiup.
+Just a simple wrap to `tiup`. This function is built within tiup. So whether we can make it a component of `tiup` in the future?
+
+## Restart a tikv instance
+`tiup cluster restart`
+
+Can use command `tiup cluster stop test --node 10.0.2.15:20160`. Now the last problem is to build a proxy.
+
+## tiup playground don't have a cluster name.
+https://docs.pingcap.com/tidb/dev/tiup-cluster
+> Similar to the TiUP playground component used for local deployment, the TiUP cluster component quickly deploys TiDB for production environment. Compared with playground, the cluster component provides more powerful cluster management features, including upgrading, scaling, and even operation and auditing.
 
 ## 201026
 ## How to restart a tikv server?
