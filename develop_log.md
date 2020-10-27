@@ -14,7 +14,7 @@ Tech:
 - [x] Use python or go?
   - Go.
 - Starter.
-  - [ ] Write a starter based on `tiup`.
+  - [x] Write a starter based on `tiup`.
 - Restart.
   - [x] Find a way to restart.
   - [ ] whether tidb control can restart a tikv process?
@@ -24,6 +24,9 @@ Tech:
 ## 201027
 ## A minor cli program with cobra
 How to use cobra: https://towardsdatascience.com/how-to-create-a-cli-in-golang-with-cobra-d729641c7177
+
+## a starter based on `tiup`
+Just a simple wrap to `tiup`. This function is built within tiup.
 
 ## 201026
 ## How to restart a tikv server?
