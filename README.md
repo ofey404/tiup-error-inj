@@ -25,6 +25,65 @@
 > - tikv advertise-addr 的概念可以考虑 https://docs.pingcap.com/zh/tidb/dev/command-line-flags-for-tikv-configuration#--advertise-addr
 
 ## Design
+使用 Golang 来编写。可以利用现有的模块。
 
+说到隔离某个实例，最先想到的功能肯定是 iptables。隔离某个实例，就创建对应的规则。可以使用 --owner 参数来指定对应的进程，参照 [iptable Tutorial](https://www.frozentux.net/iptables-tutorial/iptables-tutorial.html#OWNERMATCH)。
+
+不过它是内核级功能，普通的 go 程序不能像它一样直接控制经过某个端口的包，也不能抢占端口。
+
+> 让一个 tikv 实例连接不上其它 tikv 实例的 advertise-addr
+
+Proxy server 做到的事情是端口转发+处理。
+
+结合 proxy 的特性和隔离的要求，可以做出以下设计：
+
+```plain text
++-----------------------+                                         +--------------------------+
+|                       |                                         |                          |
+|            +----------+                                         +---------+                |
+|            |          <-----------------------------+           |         |                |
+|            |Advertise |                             |           |Advertise|                |
+|            |Addr      +-------------+               |           |Addr     |                |
+|            |          |    +--------v-------+       |           |         |                |
+|            +----------+    |                |       |           +---------+                |
+|                       |    | Proxy Server 1 |       |           |                          |
+|                       |    |                |       |           |                          |
+|  tikv1     +----------+    +--------+-------+       |           +--------+      tikv2      |
+|            |          |             |               |           |        |                 |
+|            |  Listen  |             |               |           | Source |                 |
+|            |  Port    +<------------+               +-------------Port   |                 |
+|            |          |                                         |        |                 |
+|            +----------+                                         +--------+                 |
+|                       |                                         |                          |
+|                       |                                         |                          |
+|            +----------+                                         |                          |
+|            |          |                                         +----------+               |
+|            |  Source  |                                         |          |               |
+|            |  Port    |                                         |  Listen  |               |
+|            |          |                                         |  Port    |               |
+|            +----------+                                         |          |               |
+|                       |                                         +----------+               |
+|                       |                                         |                          |
+|                       |                                         |                          |
++-----------------------+                                         +--------------------------+
+```
+
+在启动每一个实例的时候，指定一个对应的 advertise-addr，同时启动一个 Proxy server 将 advertise-addr 的流量转发到真实的 Listen Port。
+
+初始 proxy 可以设置成直接转发，执行`partition`等命令时，则修改 proxy server 的设置。
+
+这个设计还可以更精细地控制错误的类型，因为设置的每一个 proxy 相当于完全控制了这条连接的延迟、丢包等信息。
+
+proxy server 程序的性质：
+- 需要在集群启动期间保持运行。
+- 执行 `partition` 命令时，修改后台的 proxy server 的性质。
+- 最好能在集群关闭时自动停止。
+
+参照 playground 的实现：
+- 不需要考虑持久化。
+- 所有实例在同一个单机上运行，不需要考虑将 proxy 运行在多台机器上（来均衡负载）的情况。
+
+start, restart 等功能和 playground 高度重合，可以考虑为 playground 增加一个子命令/flag 这种实现方式。
 
 ## Milestone
+
