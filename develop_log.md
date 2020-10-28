@@ -19,7 +19,7 @@ Tech:
   - [x] Find a way to restart.
   - [x] whether tidb control can restart a tikv process?
 - Partition.
-  - [ ] Write small program to validate `etcd/pkg/proxy`
+  - [x] Write small program to validate `etcd/pkg/proxy`
 
 ## 201027
 ## A minor cli program with cobra

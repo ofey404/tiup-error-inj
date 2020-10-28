@@ -76,7 +76,7 @@ Proxy server 做到的事情是端口转发+处理。
 
 proxy server 程序的性质：
 - 需要在集群启动期间保持运行。
-- 执行 `partition` 命令时，修改后台的 proxy server 的性质。
+- 执行 `partition` 命令时，修改后台的 proxy server 的状态。
 - 最好能在集群关闭时自动停止。
 
 参照 playground 的实现：
@@ -87,3 +87,5 @@ start, restart 等功能和 playground 高度重合，可以考虑为 playground
 
 ## Milestone
 
+- 10.24 - 10.25 日：全天满课……
+- 10.25 - 10.27 日：阅读必要的文档，实验了一些功能，详见[开发日志](./develop_log.md)
