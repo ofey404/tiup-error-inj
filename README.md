@@ -85,6 +85,11 @@ proxy server 程序的性质：
 
 start, restart 等功能和 playground 高度重合，可以考虑为 playground 增加一个子命令/flag 这种实现方式。
 
+### partition 命令
+- [ ] 如何更改 Proxy 设置？
+  - 在执行 partition 命令的时候，用进程间通信方式告知对应的 Proxy Server。服务没有中断时间，但实现较为复杂。
+  - 或者直接关闭 Proxy Server 然后用新的配置重启一次。实现简单，但是下线/上线之间服务会中断，不利于频繁/精细的调节网络状况。
+
 ## Milestone
 
 - 10.24 - 10.25 日：全天满课……
