@@ -37,6 +37,15 @@ Can use command `tiup cluster stop test --node 10.0.2.15:20160`. Now the last pr
 https://docs.pingcap.com/tidb/dev/tiup-cluster
 > Similar to the TiUP playground component used for local deployment, the TiUP cluster component quickly deploys TiDB for production environment. Compared with playground, the cluster component provides more powerful cluster management features, including upgrading, scaling, and even operation and auditing.
 
+## Proxy building
+Refer to test of `proxy`.
+
+- [x] `proxy.Server` always need a `From` address. How to discard packages from all destination to `advertise-addr`?
+
+0.0.0.0 Represents any address.
+
+Understand the inside to use it properly, read `listenAndServe()` in `server.go` first.
+
 ## 201026
 ## How to restart a tikv server?
 Might be on the dashboard.
