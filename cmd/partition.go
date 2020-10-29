@@ -16,8 +16,8 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"bufio"
+	"fmt"
 	"os"
 
 	"net/url"
@@ -51,23 +51,37 @@ to quickly create a Cobra application.`,
 			From:   url.URL{Scheme: "tcp", Host: srcAddr},
 			To:     url.URL{Scheme: "tcp", Host: dstAddr},
 		}
-		
+
 		p := proxy.NewServer(cfg)
 		<-p.Ready()
-
 		defer p.Close()
-		
+
+		srcAddr2 := "localhost:20160" // Applied to any incoming address.
+		dstAddr2 := "localhost:20000"
+
+		cfg2 := proxy.ServerConfig{
+			Logger: testLogger,
+			From:   url.URL{Scheme: "tcp", Host: srcAddr2},
+			To:     url.URL{Scheme: "tcp", Host: dstAddr2},
+		}
+
+		p2 := proxy.NewServer(cfg2)
+		<-p2.Ready()
+		defer p2.Close()
+
 		p.BlackholeRx()
-		
 		p.BlackholeTx()
-		
-		reader := bufio.NewReader(os.Stdin)  // Wait for input
+		p2.BlackholeRx()
+		p2.BlackholeTx()
+
+		reader := bufio.NewReader(os.Stdin) // Wait for input
 		_, _ = reader.ReadString('\n')
-		
+
 		p.UnblackholeTx()
 		p.UnblackholeRx()
+		p2.UnblackholeTx()
+		p2.UnblackholeRx()
 
-		
 		done := make(chan bool)
 		<-done // Block forever
 

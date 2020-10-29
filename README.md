@@ -1,5 +1,7 @@
 # Minor task for Pingcap Internship Interview
 
+基于 `tiup` 进行开发，代码存放在[ofey404/tiup-error-inj2](https://github.com/ofey404/tiup-error-inj2)
+
 ## Task Description
 > 小作业：实现一个工具，支持在本地一键启动一个 “支持动态错误注入的 TiDB 集群” 用于测试，同时希望工具比较易用。
 > 
@@ -94,3 +96,4 @@ start, restart 等功能和 playground 高度重合，可以考虑为 playground
 
 - 10.24 - 10.25 日：全天满课……
 - 10.25 - 10.27 日：阅读必要的文档，实验了一些功能，详见[开发日志](./develop_log.md)
+- 10.27 - 10.29 日：阅读 `tiup` 的代码，在其基础上实现功能。代码存放在[tiup-error-inj2](https://github.com/ofey404/tiup-error-inj2)

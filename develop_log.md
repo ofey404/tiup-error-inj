@@ -21,6 +21,26 @@ Tech:
 - Partition.
   - [x] Write small program to validate `etcd/pkg/proxy`
 
+## 201028
+
+## Run `playground` seperately.
+`playground` is independent from `tiup` command. So run it seperately.
+
+```bash
+cd components/playground
+go build
+tiup --binpath ./playground playground
+```
+
+## design command
+
+```bash
+tiup playground --error-injection
+tiup playground --error-injection
+tiup playground err-inj --restart <identifier>
+tiup playground err-inj --partition <identifier>
+```
+
 ## 201027
 ## A minor cli program with cobra
 How to use cobra: https://towardsdatascience.com/how-to-create-a-cli-in-golang-with-cobra-d729641c7177
